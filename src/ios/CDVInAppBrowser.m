@@ -711,13 +711,13 @@
 #pragma mark UIDocumentInteractionControllerDelegate
 
 - (void) documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {
-    NSLog(@"documentInteractionControllerDidDismissOpenInMenu");
+    // NSLog(@"documentInteractionControllerDidDismissOpenInMenu");
     
     [self cleanupTempFile:controller];
 }
 
 - (void) documentInteractionController: (UIDocumentInteractionController *) controller didEndSendingToApplication: (NSString *) application {
-    NSLog(@"didEndSendingToApplication: %@", application);
+    // NSLog(@"didEndSendingToApplication: %@", application);
     
     [self cleanupTempFile:controller];
 }
@@ -729,9 +729,9 @@
     NSError *error;
     BOOL fileExists = [fileManager fileExistsAtPath:localFilePath];
     
-    NSLog(@"Path to file: %@", localFilePath);
-    NSLog(@"File exists: %hhd", fileExists);
-    NSLog(@"Is deletable file at path: %hhd", [fileManager isDeletableFileAtPath:localFilePath]);
+    // NSLog(@"Path to file: %@", localFilePath);
+    // NSLog(@"File exists: %hhd", fileExists);
+    // NSLog(@"Is deletable file at path: %hhd", [fileManager isDeletableFileAtPath:localFilePath]);
     
     if (fileExists)
     {
