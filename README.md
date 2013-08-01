@@ -5,7 +5,7 @@ Modified for iOS. Adds a button to the InAppBrowser that opens the document with
 ![Button](open-external.png "Button") &nbsp;
 ![Action Sheet](open-external-action-sheet.png "Action Sheet")
 
-These modifications were based on Andrew Trice's (ExternalFileUtil)[https://github.com/phonegap/phonegap-plugins/tree/master/iOS/ExternalFileUtil] plugin.
+These modifications were based on Andrew Trice's [ExternalFileUtil](https://github.com/phonegap/phonegap-plugins/tree/master/iOS/ExternalFileUtil) plugin.
 
 To install this plugin, follow the [Command-line Interface Guide](http://cordova.apache.org/docs/en/edge/guide_cli_index.md.html#The%20Command-line%20Interface).
 
