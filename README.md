@@ -2,9 +2,9 @@ cordova-plugin-inappbrowser
 -----------------------------
 Modified for iOS. Adds a button to the InAppBrowser that opens the document with an external application.
 
-![Button](https://github.com/don/cordova-plugin-inappbrowser/blob/open-external/open-external.png "Button")
+![Button](open-external.png "Button")
 
-![Action Sheet](https://github.com/don/cordova-plugin-inappbrowser/blob/open-external/open-external-action-sheet.png "Action Sheet")
+![Action Sheet](open-external-action-sheet.png "Action Sheet")
 
 To install this plugin, follow the [Command-line Interface Guide](http://cordova.apache.org/docs/en/edge/guide_cli_index.md.html#The%20Command-line%20Interface).
 
