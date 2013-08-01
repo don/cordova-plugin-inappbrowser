@@ -44,6 +44,7 @@
     NSString* _prevUserAgent;
     NSInteger _userAgentLockToken;
     CDVWebViewDelegate* _webViewDelegate;
+    NSString *localFilePath;
 }
 
 @property (nonatomic, strong) IBOutlet UIWebView* webView;

@@ -663,7 +663,6 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     if (!documentsDirectory) {NSLog(@"Documents directory not found!");} // TODO handle better
 
-    NSString *localFilePath; // TODO make member variable so we can cleanup
     localFilePath = [documentsDirectory stringByAppendingPathComponent:documentName];
     
     [remoteFile writeToFile:localFilePath atomically:YES];
@@ -707,6 +706,38 @@
 - (void)goForward:(id)sender
 {
     [self.webView goForward];
+}
+
+#pragma mark UIDocumentInteractionControllerDelegate
+
+- (void) documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {
+    NSLog(@"documentInteractionControllerDidDismissOpenInMenu");
+    
+    [self cleanupTempFile:controller];
+}
+
+- (void) documentInteractionController: (UIDocumentInteractionController *) controller didEndSendingToApplication: (NSString *) application {
+    NSLog(@"didEndSendingToApplication: %@", application);
+    
+    [self cleanupTempFile:controller];
+}
+
+- (void) cleanupTempFile: (UIDocumentInteractionController *) controller
+{
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    BOOL fileExists = [fileManager fileExistsAtPath:localFilePath];
+    
+    NSLog(@"Path to file: %@", localFilePath);
+    NSLog(@"File exists: %hhd", fileExists);
+    NSLog(@"Is deletable file at path: %hhd", [fileManager isDeletableFileAtPath:localFilePath]);
+    
+    if (fileExists)
+    {
+        BOOL success = [fileManager removeItemAtPath:localFilePath error:&error];
+        if (!success) NSLog(@"Error: %@", [error localizedDescription]);
+    }
 }
 
 #pragma mark UIWebViewDelegate
