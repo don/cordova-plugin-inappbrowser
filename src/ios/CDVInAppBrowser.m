@@ -430,7 +430,7 @@
     self.closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(close)];
     self.closeButton.enabled = YES;
 
-    self.openExternalButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openExternal)]; // TODO need new action!
+    self.openExternalButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openInExternalApp)];
 
     UIBarButtonItem* flexibleSpaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 
@@ -652,15 +652,36 @@
     }
 }
 
-- (void)openExternal
+- (void) openInExternalApp
 {
-    // This should display a action sheet to allow the user to choose an external application for this document
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not Implemented"
-                                                    message:@"Opening documents with external applications has not been implemented yet."
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
+    NSURL *url = [self currentURL];
+    NSString *documentName = [url lastPathComponent];
+    NSData *remoteFile = [[NSData alloc] initWithContentsOfURL:url];
+        
+    // Copy the remote file to the Documents directory
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    if (!documentsDirectory) {NSLog(@"Documents directory not found!");} // TODO handle better
+
+    NSString *localFilePath; // TODO make member variable so we can cleanup
+    localFilePath = [documentsDirectory stringByAppendingPathComponent:documentName];
+    
+    [remoteFile writeToFile:localFilePath atomically:YES];
+    NSLog(@"Resource file '%@' has been written to the Documents directory from online", documentName);
+    
+    // Open file again from Documents directory
+    NSURL *fileURL = [NSURL fileURLWithPath:localFilePath];
+    
+    if (![self docInteractionController]) {
+        [self setDocInteractionController:[UIDocumentInteractionController interactionControllerWithURL:fileURL]];
+        [[self docInteractionController] setDelegate:self];
+    } else {
+        [[self docInteractionController] setURL:fileURL];
+    }
+    
+    UIViewController *viewController = self;
+    CGRect rect = CGRectMake(0, 0, viewController.view.bounds.size.width, viewController.view.bounds.size.height);
+    [[self docInteractionController] presentOpenInMenuFromRect:rect inView:viewController.view animated:YES];
 }
 
 - (void)navigateTo:(NSURL*)url
